@@ -1,3 +1,18 @@
+This fork of FabScan100 is
+==========
+
+In this fork I've added USB HID device support, to which will be soon included dedicated electronics (as soon as I test it :) )
+→ It may not be a neat code - I needed functionality
+→ Comments are to be added - mostly for original code, as it would be much easier to browse it...
+
+Next to do:
+→ use of openCV fully, without using QT libraries for capturing data.
+→ add auto-calibration with calibration box, or calibration pattern.
+
+USB may be supported on Windows, as I'm a total Linux user, I won't do that if I don't have to :)
+
+Rest of this tetxt is just normal, plain FabScan100 readme.
+
 FabScan100
 ==========
 The FabScan100 software is planned to run on Mac and Linux (and maybe also Windows).
