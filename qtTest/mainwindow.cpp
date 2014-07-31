@@ -2,6 +2,8 @@
 #include "ui_mainwindow.h"
 #include "fscontroller.h"
 #include "fsdialog.h"
+#include "usbdialog.h"
+#include "usbglobal.h"
 
 #include <QBasicTimer>
 #include <QDialogButtonBox>
@@ -37,6 +39,8 @@ MainWindow::MainWindow(QWidget *parent) :
     //resolution: Good
     FSController::getInstance()->turntableStepSize = 16*FSController::getInstance()->turntable->degreesPerStep;
     FSController::getInstance()->yDpi = 1;
+
+    ui->menuBar->setDefaultUp(0);
 }
 
 MainWindow::~MainWindow()
@@ -341,4 +345,14 @@ void MainWindow::on_resolutionComboBox_currentIndexChanged(const QString &arg1)
         FSController::getInstance()->turntableStepSize = 10*16*FSController::getInstance()->turntable->degreesPerStep;
         FSController::getInstance()->yDpi = 10;
     }
+}
+
+void MainWindow::on_actionFind_Devices_triggered()
+{
+    // TU DODAĆ KOD DO WYSZUKANIA USB DEVICES
+    //UsbDialog usbdialog;
+    //usbdialog.setModal(true);
+    //usbdialog.exec();
+    usbdialog =new UsbDialog(this);
+    usbdialog->show();
 }

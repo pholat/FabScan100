@@ -1,11 +1,19 @@
 #include "fsserial.h"
 #include <QThread>
+//#include <usb.h>
+//unix:!macx:!symbian: PRE_TARGETDEPS += $$PWD/../../../../../usr/lib/i386-linux-gnu/libusb.a
+#include "/usr/include/libusb-1.0/libusb.h"
+
+extern libusb_device_handle *device_handle; //handle to USB device
+extern int USB_Flag;
+
 
 FSSerial::FSSerial()
 {
     serialPortPath = new QString();
 }
 
+// USB has another window - so no need to add USB_Flag
 bool FSSerial::connectToSerialPort()
 {
     this->serialPort = new QextSerialPort(*serialPortPath, QextSerialPort::EventDriven);
@@ -46,27 +54,45 @@ void FSSerial::onDsrChanged(bool)
 
 void FSSerial::writeChar(char c)
 {
-    //qDebug() << "writing to serial port: " << (int)((unsigned char)c);
-    if( serialPortPath->isEmpty() ) return;
-    if( !serialPort->isOpen() ) return;
-    if( serialPort->isWritable() ){
-        //qDebug("is writable");
-        //usleep(100000);
-        serialPort->write(&c);
+    if(USB_Flag==0) // If HID usb is not in use → than use USB type of write char
+    {
+        //qDebug() << "writing to serial port: " << (int)((unsigned char)c);
+        if( serialPortPath->isEmpty() ) return;
+        if( !serialPort->isOpen() ) return;
+        if( serialPort->isWritable() ){
+            //qDebug("is writable");
+            //usleep(100000);
+            serialPort->write(&c);
+        }else{
+           // qDebug("is not writable");
+        }
     }else{
-       // qDebug("is not writable");
+        libusb_control_transfer(device_handle,LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_RECIPIENT_DEVICE | LIBUSB_ENDPOINT_IN,
+                                c , 0, 0, 0, 0, 5000);
+
     }
 }
 
-void FSSerial::writeChars(char* c)
+void FSSerial::writeChars(char* c ,int size)
 {
-    if( serialPortPath->isEmpty() ) return;
-    if( !serialPort->isOpen() ) return;
-    if( serialPort->isWritable() ){
-        //qDebug("is writable");
-        //usleep(100000);
-        serialPort->write(c);
+    if(USB_Flag==0)
+    {
+        if( serialPortPath->isEmpty() ) return;
+        if( !serialPort->isOpen() ) return;
+        if( serialPort->isWritable() ){
+            //qDebug("is writable");
+            //usleep(100000);
+            serialPort->write(c);
+        }else{
+            //qDebug("is not writable");
+        }
     }else{
-        //qDebug("is not writable");
+        while((size)!=0)
+        {
+            libusb_control_transfer(device_handle,LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_RECIPIENT_DEVICE | LIBUSB_ENDPOINT_IN,
+                                    *c , 0, 0, 0, 0, 5000);
+            size--;
+            c=c++;
+        }
     }
 }

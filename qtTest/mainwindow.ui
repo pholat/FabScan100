@@ -65,7 +65,7 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <property name="spacing">
-       <number>-1</number>
+       <number>6</number>
       </property>
       <property name="leftMargin">
        <number>17</number>
@@ -181,7 +181,7 @@
      <x>0</x>
      <y>0</y>
      <width>622</width>
-     <height>22</height>
+     <height>25</height>
     </rect>
    </property>
    <property name="defaultUp">
@@ -193,19 +193,27 @@
     </property>
     <addaction name="actionPort1"/>
    </widget>
-   <widget class="QMenu" name="menuCamera">
-    <property name="title">
-     <string>Camera</string>
-    </property>
-   </widget>
    <widget class="QMenu" name="menuFile">
     <property name="title">
      <string>File</string>
     </property>
    </widget>
+   <widget class="QMenu" name="menuCamera">
+    <property name="title">
+     <string>Camera</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuUSB">
+    <property name="title">
+     <string>USB</string>
+    </property>
+    <addaction name="separator"/>
+    <addaction name="actionFind_Devices"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuSerialPort"/>
    <addaction name="menuCamera"/>
+   <addaction name="menuUSB"/>
   </widget>
   <action name="actionPort1">
    <property name="text">
@@ -215,6 +223,11 @@
   <action name="actionOpenPointCloud">
    <property name="text">
     <string>Open PointCloud...</string>
+   </property>
+  </action>
+  <action name="actionFind_Devices">
+   <property name="text">
+    <string>Connect shield</string>
    </property>
   </action>
  </widget>

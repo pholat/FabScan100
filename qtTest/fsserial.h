@@ -7,6 +7,9 @@
 
 //#include "staticHeaders.h"
 
+#include <usb.h>
+#include "usb_fun.h"
+
 class FSSerial : public QObject
 {
 
@@ -16,7 +19,7 @@ public:
     QString *serialPortPath;
     bool connectToSerialPort();
     void writeChar(char c);
-    void writeChars(char* c);
+    void writeChars(char* c, int size=0);
 
 private slots:
     void onReadyRead();

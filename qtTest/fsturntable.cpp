@@ -1,6 +1,8 @@
 #include "fsturntable.h"
 #include "fscontroller.h"
 
+extern int USB_Flag;
+
 FSTurntable::FSTurntable()
 {
     degreesPerStep = 360.0f/200.0f/16.0f; //the size of a microstep
@@ -23,7 +25,21 @@ void FSTurntable::turnNumberOfSteps(unsigned int steps)
         }
     }
     this->selectStepper();
-    FSController::getInstance()->serial->writeChars(c);
+    if(USB_Flag==0)
+    {
+        FSController::getInstance()->serial->writeChars(c);
+    }else{
+            for(int i=0;i<=steps;i--)
+            {
+                FSController::getInstance()->serial->writeChar(MC_PERFORM_STEP);
+                FSController::getInstance()->serial->writeChar(1);
+            }
+
+        /*char lol=MC_PERFORM_STEP,lol2=5;
+        FSController::getInstance()->serial->writeChar(lol);
+        FSController::getInstance()->serial->writeChar(lol2);
+        */
+    }
 }
 
 void FSTurntable::turnNumberOfDegrees(double degrees)
@@ -55,7 +71,13 @@ void FSTurntable::selectStepper()
     char c[2];
     c[0] = MC_SELECT_STEPPER;
     c[1] = MC_TURNTABLE_STEPPER;
-    FSController::getInstance()->serial->writeChars(c);
+    if(USB_Flag==0)
+    {
+        FSController::getInstance()->serial->writeChars(c);
+    }else
+    {
+        FSController::getInstance()->serial->writeChars(c,2);
+    }
 }
 
 void FSTurntable::enable(void)

@@ -4,7 +4,7 @@
 #include "staticHeaders.h"
 #include "fsdialog.h"
 #include "fscontrolpanel.h"
-
+#include "usbdialog.h"
 
 QT_BEGIN_NAMESPACE
 class QBasicTimer;
@@ -49,11 +49,14 @@ private slots:
 
     void on_resolutionComboBox_currentIndexChanged(const QString &arg1);
 
+    void on_actionFind_Devices_triggered();
+
 private:
     QBasicTimer *hwTimer; //updates connected hw:arduino,webcam,...
     Ui::MainWindow *ui;
     FSState state;
     FSDialog* dialog;
+    UsbDialog *usbdialog;
 
     void setupMenu();
     void enumerateSerialPorts();

@@ -16,6 +16,7 @@ typedef struct _FSColor
   FSUChar blue;
 } FSColor;
 
+
 static FSColor FSMakeColor(FSUChar red, FSUChar green, FSUChar blue)
 {
     FSColor c;

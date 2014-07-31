@@ -16,6 +16,7 @@ TEMPLATE = app
 CONFIG += precompile_header
 PRECOMPILED_HEADER = staticHeaders.h
 
+
 include(qextserialport-1.2rc/src/qextserialport.pri)
 
 SOURCES += main.cpp\
@@ -31,7 +32,9 @@ SOURCES += main.cpp\
     fsturntable.cpp \
     fsvision.cpp \
     fswebcam.cpp \
-    fsconfiguration.cpp
+    fsconfiguration.cpp \
+    usbdialog.cpp \
+    usb_data_class.cpp
 
 HEADERS  += mainwindow.h \
     geometryengine.h \
@@ -48,11 +51,16 @@ HEADERS  += mainwindow.h \
     fslaser.h \
     fsvision.h \
     fsturntable.h \
-    fsconfiguration.h
+    fsconfiguration.h \
+    usb_fun.h \
+    usbdialog.h \
+    usb_data_class.h \
+    usbglobal.h
 
 FORMS    += mainwindow.ui \
     fsdialog.ui \
-    fscontrolpanel.ui
+    fscontrolpanel.ui \
+    usbdialog.ui
 
 OTHER_FILES += \
     fshader.glsl \
@@ -61,6 +69,11 @@ OTHER_FILES += \
 RESOURCES += \
     shaders.qrc \
     textures.qrc
+
+
+
+
+
 
 macx {
     message("Buildng for Mac.")
@@ -184,7 +197,7 @@ linux-g++ {
 
     INCLUDEPATH += /usr/include/
 
-    INCLUDEPATH += /usr/include/pcl-1.6
+    INCLUDEPATH += /usr/include/pcl-1.7
     LIBS += -L/usr/lib \
     -lpcl_common \
     -lpcl_io \
@@ -339,3 +352,5 @@ win32 {
 
     DEFINES += WINDOWS
 }
+
+    INCLUDEPATH += "/usr/local/include/libusb-1.0"

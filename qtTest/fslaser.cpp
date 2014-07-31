@@ -3,6 +3,8 @@
 #include "fsserial.h"
 #include <math.h>
 
+extern int USB_Flag;
+
 FSLaser::FSLaser()
 {
     laserPointPosition = FSMakePoint(14.0f, 0.0f, 0.0f);
@@ -21,7 +23,12 @@ void FSLaser::selectStepper()
     char c[2];
     c[0] = MC_SELECT_STEPPER;
     c[1] = MC_LASER_STEPPER;
-    FSController::getInstance()->serial->writeChars(c);
+    if(USB_Flag==0)
+    {
+        FSController::getInstance()->serial->writeChars(c);
+    }else{
+        FSController::getInstance()->serial->writeChars(c,2);
+    }
 }
 
 void FSLaser::turnOn()
@@ -50,7 +57,12 @@ void FSLaser::turnNumberOfSteps(unsigned int steps)
             s-=255;
         }
     }
-    FSController::getInstance()->serial->writeChars(c);
+    if(USB_Flag==0)
+    {
+        FSController::getInstance()->serial->writeChars(c);
+    }else{
+        FSController::getInstance()->serial->writeChars(c,size);
+    }
     laserPointPosition.x = position.x - tan(rotation.y*M_PI/180)*position.z;
     qDebug() << "LaserPositionX"<< laserPointPosition.x;
 }

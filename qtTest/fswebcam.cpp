@@ -5,6 +5,11 @@
 #include <QCameraViewfinder>
 #include <QObject>
 
+#include "opencv2/objdetect/objdetect.hpp"
+     #include "opencv2/highgui/highgui.hpp"
+     #include "opencv2/imgproc/imgproc.hpp"
+    #include "opencv2/contrib/contrib.hpp"
+
 FSWebCam::FSWebCam()
 {
     info.portName = "";
@@ -37,8 +42,15 @@ cv::Mat FSWebCam::getFrame()
     while(!frameTaken){
         qApp->processEvents();
     }
+
     //qDebug() << "received frame";
+//    CvCapture * capture;
+//    cvReleaseCapture( &capture);
+//    capture = cvCaptureFromCAM(0);
     return frame.clone();
+//    IplImage* frame = cvQueryFrame(capture);
+//       cvReleaseCapture( &capture);
+//    return frame;
 }
 
 FSPoint FSWebCam::getPosition()
