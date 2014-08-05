@@ -121,6 +121,7 @@ void FSController::scanThread()
         vision->putPointsFromFrameToCloud(laserOff, laserOn, yDpi, 0);
         //update gui
         geometries->setPointCloudTo(model->pointCloud);
+// TODO - why it's not workin -_-"
 //        mainwindow->progression((int)((100.0/360.0)*i));
         mainwindow->redraw();
         //turn turntable a step

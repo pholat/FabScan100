@@ -161,6 +161,7 @@ void UsbDialog::usbFindDev()
                                 //setting the value
                                 ui->progressBar->setValue(progress_bar_value);
                             }
+                            ui->progressBar->setValue(100);
                         }
                     }
                 }

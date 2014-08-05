@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>622</width>
-    <height>513</height>
+    <width>618</width>
+    <height>517</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -80,17 +80,17 @@
        <number>18</number>
       </property>
       <item>
-       <spacer name="horizontalSpacer_3">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
+       <widget class="QProgressBar" name="progressBar">
+        <property name="maximumSize">
          <size>
-          <width>40</width>
-          <height>20</height>
+          <width>16777215</width>
+          <height>16777173</height>
          </size>
         </property>
-       </spacer>
+        <property name="value">
+         <number>24</number>
+        </property>
+       </widget>
       </item>
       <item>
        <spacer name="horizontalSpacer_4">
@@ -180,7 +180,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>622</width>
+     <width>618</width>
      <height>25</height>
     </rect>
    </property>

@@ -26,6 +26,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    ui->progressBar->reset();
+
     this->setupMenu();
     this->enumerateSerialPorts();
     this->enumerateWebCams();
@@ -276,6 +279,7 @@ void MainWindow::on_scanButton_clicked()
 {
     //doneScanning();
     //QFuture<void> future = QtConcurrent::run(FSController::getInstance(), &FSController::scanThread);
+    progression(0);
     bool s = FSController::getInstance()->scanning;
     if (s==false){
         applyState(SCANNING);
@@ -355,4 +359,9 @@ void MainWindow::on_actionFind_Devices_triggered()
     //usbdialog.exec();
     usbdialog =new UsbDialog(this);
     usbdialog->show();
+}
+
+void MainWindow::progression(int value)
+{
+    ui->progressBar->setValue(value);
 }

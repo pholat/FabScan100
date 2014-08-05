@@ -5,7 +5,7 @@ extern int USB_Flag;
 
 FSTurntable::FSTurntable()
 {
-    degreesPerStep = 360.0f/200.0f/16.0f; //the size of a microstep
+    degreesPerStep = 360.0f/(200.0f * 16.0f); //the size of a microstep
     direction = FS_DIRECTION_CW;
     rotation = FSMakePoint(0.0f, 0.0f, 0.0f);
 }
@@ -29,7 +29,7 @@ void FSTurntable::turnNumberOfSteps(unsigned int steps)
     {
         FSController::getInstance()->serial->writeChars(c);
     }else{
-            for(int i=0;i<=steps;i--)
+            for(unsigned int i=0;i<=steps;i++)
             {
                 FSController::getInstance()->serial->writeChar(MC_PERFORM_STEP);
                 FSController::getInstance()->serial->writeChar(1);

@@ -32,6 +32,7 @@ public:
     void redraw();
     FSControlPanel* controlPanel;
     void doneScanning();
+    void progression(int);
 
 
 private slots:
@@ -50,10 +51,9 @@ private slots:
     void on_resolutionComboBox_currentIndexChanged(const QString &arg1);
 
     void on_actionFind_Devices_triggered();
-
 private:
-    QBasicTimer *hwTimer; //updates connected hw:arduino,webcam,...
     Ui::MainWindow *ui;
+    QBasicTimer *hwTimer; //updates connected hw:arduino,webcam,...
     FSState state;
     FSDialog* dialog;
     UsbDialog *usbdialog;
