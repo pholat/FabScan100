@@ -26,6 +26,7 @@ class FSController
     private:
         static FSController* singleton;
         FSController();
+        ~FSController();
 
     public:
         MainWindow* mainwindow;

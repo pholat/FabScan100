@@ -16,6 +16,7 @@ class FSSerial : public QObject
 Q_OBJECT
 public:
     FSSerial();
+    ~FSSerial();
     QString *serialPortPath;
     bool connectToSerialPort();
     void writeChar(char c);

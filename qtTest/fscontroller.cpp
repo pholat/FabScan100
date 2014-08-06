@@ -34,6 +34,20 @@ FSController::FSController()
     meshComputed = false;
 }
 
+FSController::~FSController()
+{
+    //Software
+    delete geometries;// = new GeometryEngine();
+    delete model ;//= new FSModel();
+    //Harware
+    delete serial;// = new FSSerial();
+    delete webcam ;//= new FSWebCam();
+    delete turntable;// = new FSTurntable();
+    delete laser;// = new FSLaser();
+    delete vision;// = new FSVision();
+    if(singleton!=0) delete singleton;
+}
+
 FSController* FSController::getInstance()
 {
     if (singleton == 0){
@@ -63,7 +77,11 @@ void FSController::fetchFrame()
     //cv::waitKey(0);
     cv::resize(frame,frame,cv::Size(1280,960));
     cv::Mat result = vision->drawHelperLinesToFrame(frame);
+
+    //TODO release
+    frame.release();
     cv::resize(result,result,cv::Size(800,600)); //this is the resolution of the preview
+
     cv::imshow("Extracted Frame",result);
     cv::waitKey(0);
     cvDestroyWindow("Extracted Frame");
@@ -121,7 +139,13 @@ void FSController::scanThread()
         vision->putPointsFromFrameToCloud(laserOff, laserOn, yDpi, 0);
         //update gui
         geometries->setPointCloudTo(model->pointCloud);
-//        mainwindow->progression((int)((100.0/360.0)*i));
+
+// TODO - mat release...
+
+        laserOff.release();
+        laserOn.release();
+
+        mainwindow->progression((int)((100.0/360.0)*i));
         mainwindow->redraw();
         //turn turntable a step
         turntable->turnNumberOfDegrees(stepDegrees);
@@ -166,6 +190,10 @@ void FSController::scanThread2()
             mainwindow->redraw();
             laser->turnNumberOfDegrees(laserStepSize);
             QThread::msleep(laserStepSize*100);
+            // TODO - mat release...
+
+                    laserOff.release();
+                    laserOn.release();
         }
         laser->disable();
         turntable->enable();
@@ -193,7 +221,14 @@ cv::Mat FSController::diffImage()
     cv::Mat laserOn = webcam->getFrame();
     cv::resize( laserOn,laserOn,cv::Size(1280,960) );
 
-    return vision->diffImage(laserOff,laserOn);
+    cv::Mat retValue = vision->diffImage(laserOff,laserOn);
+
+    // TODO - mat release...
+
+            laserOff.release();
+            laserOn.release();
+
+    return retValue;
 }
 
 bool FSController::detectLaserLine()
@@ -210,6 +245,12 @@ bool FSController::detectLaserLine()
 
     qDebug("images loaded, now detecting...");
     FSPoint p = vision->detectLaserLine( laserOffFrame, laserOnFrame, threshold );
+
+    // TODO - mat release...
+
+            laserOffFrame.release();
+            laserOnFrame.release();
+
     if(p.x == 0.0){return false;}
     laser->setLaserPointPosition(p);
     return true;

@@ -13,6 +13,13 @@ FSSerial::FSSerial()
     serialPortPath = new QString();
 }
 
+// ADDED 5.08.2014
+FSSerial::~FSSerial()
+{
+    delete serialPortPath;
+    delete this->serialPort;
+}
+
 // USB has another window - so no need to add USB_Flag
 bool FSSerial::connectToSerialPort()
 {

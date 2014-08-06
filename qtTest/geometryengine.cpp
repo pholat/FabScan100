@@ -55,6 +55,10 @@ void GeometryEngine::initPointCloud()
 
 }
 
+
+// TODO where is delete...?
+
+
 void GeometryEngine::setPointCloudTo(pcl::PointCloud<pcl::PointXYZRGB>::Ptr pointcloud)
 {
     //VertexData vertices[pointcloud->points.size()];
@@ -81,6 +85,9 @@ void GeometryEngine::setPointCloudTo(pcl::PointCloud<pcl::PointXYZRGB>::Ptr poin
     // Transfer vertex data to VBO 0
     glBindBuffer(GL_ARRAY_BUFFER, vboIds[0]);
     glBufferData(GL_ARRAY_BUFFER, pointcloud->points.size() * sizeof(VertexData), vertices, GL_STATIC_DRAW);
+
+    // TODO here I delete..
+    delete vertices;
 
     // Transfer index data to VBO 1
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vboIds[1]);
